@@ -1,3 +1,4 @@
+//* To do List *//
 let todos = [
   {
     completed: false,
@@ -16,24 +17,39 @@ let todos = [
     description: "Call the caterers",
   },
 ];
+let app = document.querySelector("#app");
+let h1 = document.createElement("h1");
+let list = document.createElement("ul");
+
+app.appendChild(h1);
+app.appendChild(list);
 
 function renderTodoApp() {
-  let app = document.querySelector("#app");
-  let h1 = document.createElement("h1");
-  let list = document.createElement("ul");
-
   let html = "";
   for (let todoItem of todos) {
+    let input = `<input type="checkbox"> ${todoItem.description} </input>`;
+    if (todoItem.completed === true) {
+      input = `<input type="checkbox" checked> ${todoItem.description} </input>`;
+    }
     html += `
       <li>
-        completed: ${todoItem.completed} - description ${todoItem.description}
+       ${input}
       </li>`;
   }
   list.innerHTML = html;
   h1.innerText = "Todo List";
-
-  app.appendChild(h1);
-  document.body.appendChild(list);
 }
+let form = document.querySelector("#form");
+let userInput = document.querySelector("#input");
+form.onsubmit = (e) => {
+  e.preventDefault();
+  let item = {
+    completed: false,
+    description: userInput.value,
+  };
+  todos.push(item);
+  userInput.value = "";
+  renderTodoApp();
+};
 
 renderTodoApp();
